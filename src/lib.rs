@@ -1,6 +1,6 @@
-use std::fs::{self};
+use std::fs;
 use std::path::Path;
-use std::io::{self, Write};
+use std::io;
 
 pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<(u32, u32)> {
     let mut total_files = 0;
@@ -21,8 +21,7 @@ pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<(u32, u32)> {
             } else {
                 if path.extension() == Some(std::ffi::OsStr::new("mp3")) {
                     let txt_path = output_path.with_extension("txt");
-                    let mut file = fs::File::create(txt_path)?;
-                    file.write_all(path.to_str().unwrap().as_bytes())?;
+                    let mut _file = fs::File::create(txt_path)?;
                     music_copied += 1;
                 }
             }

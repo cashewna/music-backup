@@ -2,13 +2,18 @@ use std::fs::{self};
 use std::path::Path;
 use std::io::{self, Write};
 
-pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<()> {
+pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<(u32, u32)> {
+    let mut total_files = 0;
+    let mut music_copied = 0;
+
     if dir.is_dir() {
         for entry in fs::read_dir(dir)? {
             let entry = entry?;
             let path = entry.path();
             let relative_path = path.strip_prefix(&dir).unwrap();
             let output_path = output_base.join(relative_path);
+
+            total_files += 1;
 
             if path.is_dir() {
                 fs::create_dir_all(&output_path)?;
@@ -18,9 +23,10 @@ pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<()> {
                     let txt_path = output_path.with_extension("txt");
                     let mut file = fs::File::create(txt_path)?;
                     file.write_all(path.to_str().unwrap().as_bytes())?;
+                    music_copied += 1;
                 }
             }
         }
     }
-    Ok(())
+    Ok((total_files, music_copied))
 }

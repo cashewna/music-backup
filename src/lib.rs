@@ -1,6 +1,6 @@
 use std::fs;
-use std::path::Path;
 use std::io;
+use std::path::Path;
 
 pub fn process_dirs(dir: &Path, output_base: &Path) -> io::Result<(u32, u32)> {
     let mut total_files = 0;

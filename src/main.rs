@@ -1,7 +1,7 @@
 use dirs::home_dir;
+use music_backup::process_dirs;
 use std::fs::{self};
 use std::time::Instant;
-use music_backup::process_dirs;
 
 fn main() {
     let start = Instant::now();
@@ -11,7 +11,8 @@ fn main() {
 
     fs::create_dir_all(&output_dir).expect("Failed to create output dir.");
 
-    let (num_files, music_files) = process_dirs(&music_dir, &output_dir).expect("Failed to process directories.");
+    let (num_files, music_files) =
+        process_dirs(&music_dir, &output_dir).expect("Failed to process directories.");
 
     let duration = start.elapsed();
     println!(
@@ -20,4 +21,3 @@ fn main() {
         duration.subsec_nanos()
     );
 }
-
